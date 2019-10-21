@@ -8,6 +8,16 @@
                 </div>
             </div> -->
             <div class="box-body">
+                <div class="row">
+
+
+            <div class="box-body" >
+              <div style="margin-left: 79%;">
+                <?php echo form_open('kunjungan/search') ?>
+                  <input type="text" name="keyword" placeholder="search">
+                   <button type="submit" class="btn btn-warning pull-right"><i class="fa fa-search"></i></button> 
+                <?php echo form_close() ?>
+              </div>
                 <table class="table table-striped">
                     <tr>
 						<th>Tanggal</th>

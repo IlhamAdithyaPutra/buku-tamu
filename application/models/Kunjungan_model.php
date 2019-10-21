@@ -10,6 +10,7 @@ class Kunjungan_model extends CI_Model
     {
         parent::__construct();
     }
+
     function get_kunjungan_filterrby_monthyearidtujuan_groupby_idjuan($bulan,$tahun,$id_tujuan){
         $query = "SELECT id_tujuan,COUNT(nama) as jumlah FROM kunjungan WHERE year(tanggal)=".$tahun." and month(tanggal)=".$bulan." and id_tujuan=".$id_tujuan;
         return $this->db->query($query)->result_array();
@@ -48,6 +49,13 @@ class Kunjungan_model extends CI_Model
             $this->db->limit($params['limit'], $params['offset']);
         }
         return $this->db->get('kunjungan')->result_array();
+    }
+
+    function get_kunjungan_keyword($keyword){
+        $this->db->select('*');
+        $this->db->from('kunjungan');
+        $this->db->like('nama',$keyword);
+        return $this->db->get()->result();
     }
         
     /*

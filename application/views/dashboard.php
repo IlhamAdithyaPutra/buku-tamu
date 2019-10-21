@@ -23,51 +23,41 @@
   }
 </script>
 
-<div class="row">
+
+
+<div class="box-body">
     <div class="col-md-12">
-        <div class="box">
+        <div class="box" style="padding: 15px">
             <div class="box-header">
                 <h3 class="box-title">Dashboard</h3>
             </div>
-            <div class="box-body">
-            	<?php echo form_open('dashboard/index'); ?>
-            	<div class="row">
-            		<div class="col-sm-6">
+                 
+              <div class="col-xs-12">
+                <div style="margin-left: 70%;">
+                <div class="row">
+                  <div class="col-sm-12">
                     <div class="form-group">
-                          <label>Bulan</label>
-                          <select class="form-control" id="bulan" name="bulan">
-                                <option value="01" <?php if(isset($bulan)){if($bulan=='01'){echo 'selected';}}?>>Januari</option>
-                                <option value="02" <?php if(isset($bulan)){if($bulan=='02'){echo 'selected';}}?>>Februari</option>
-                                <option value="03" <?php if(isset($bulan)){if($bulan=='03'){echo 'selected';}}?>>Maret</option>
-                                <option value="04" <?php if(isset($bulan)){if($bulan=='04'){echo 'selected';}}?>>April</option>
-                                <option value="05" <?php if(isset($bulan)){if($bulan=='05'){echo 'selected';}}?>>Mei</option>
-                                <option value="06" <?php if(isset($bulan)){if($bulan=='06'){echo 'selected';}}?>>Juni</option>
-                                <option value="07" selected="true" <?php if(isset($bulan)){if($bulan=='07'){echo 'selected';}}?>>Juli</option>
-                                <option value="08" <?php if(isset($bulan)){if($bulan=='08'){echo 'selected';}}?>>Agustus</option>
-                                <option value="09" <?php if(isset($bulan)){if($bulan=='09'){echo 'selected';}}?>>September</option>
-                                <option value="10" <?php if(isset($bulan)){if($bulan=='10'){echo 'selected';}}?>>Oktober</option>
-                                <option value="11" <?php if(isset($bulan)){if($bulan=='11'){echo 'selected';}}?>>November</option>
-                                <option value="12" <?php if(isset($bulan)){if($bulan=='12'){echo 'selected';}}?>>Desember</option>
-                          </select>
-                        </div>
-                  </div>
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                          <label>Tahun</label>
-                          <input value="2019" type="number" class="form-control" placeholder="Masukkan Tahun" id="tahun", name="tahun" value="<?php if(isset($tahun))echo $tahun;?>">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group">
-                      <button type="submit" class="btn btn-warning pull-right" style="margin-right: 30px;margin-bottom: 10px;"><i class="fa fa-eye"></i> Lihat</button> 
+                      <label class="control-label" ><small>Cari Data: </small></label>
+                    <div class='input-group date' id='tanggal'>
+                    <input type="text" class="form-control" id="tanggal" />
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                       <div class="form-group">
+                      <button type="submit" class="btn btn-warning pull-right"><i class="fa fa-search"></i></button> 
                     </div>
                   </div>  
-            	</div>
+            	   </div>
+               </div>
+             </div>
+          </div>
+        </div>
+    
             	<?php echo form_close(); ?>
 
                 <div class="row">
                 	<div class="col-lg-4 col-xs-6">
-                		<div class="small-box bg-yellow">
+                		<div class="small-box bg-red">
                             <div class="inner">
                                 <h3>
                                 	<?php echo isset($total_sekretariat[0]['jumlah']) ? $total_sekretariat[0]['jumlah']:  "0" ;?>
@@ -160,21 +150,51 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChartPendidikan);
-    function drawChartPendidikan() {
-         var data = google.visualization.arrayToDataTable([
-              ['Task', 'Hours per Day'],
-              ['PNS',     11],
-              ['Honorer',      2]
-            ]);
-         var options = {
+<body>
+ 
+    <canvas id="canvas" width="1000" height="280"></canvas>
+ 
+    <!--Load chart js-->
+    <script type="text/javascript" src="<?php echo base_url().'assets/chart.js'?>"></script>
+    <script>
+ 
+            var lineChartData = {
+                labels : <?php echo json_encode($merk);?>,
+                datasets : [
+                     
+                    {
+                        fillColor: "rgba(60,141,188,0.9)",
+                        strokeColor: "rgba(60,141,188,0.8)",
+                        pointColor: "#3b8bba",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(152,235,239,1)",
+                        data : <?php echo json_encode($stok);?>
+                    }
+ 
+                ]
+                 
+            }
+ 
+        var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(lineChartData);
+         
+    </script>
 
-        };
-        //legend: 'none'
-        var chart = new google.visualization.PieChart(document.getElementById('chart'));
+    <!-- js untuk jquery -->
+  <script src="js/jquery-1.11.2.min.js"></script>
+  <!-- js untuk bootstrap -->
+  <script src="js/bootstrap.js"></script>
+  <!-- js untuk moment -->
+  <script src="js/moment.js"></script>
+  <!-- js untuk bootstrap datetimepicker -->
+  <script src="js/bootstrap-datetimepicker.min.js"></script>
 
-        chart.draw(data, options);
-    }
-</script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+       $('#tanggal').datetimepicker({
+        format : 'DD/MM/YYYY'
+       });
+    });
+  </script>
+</body>

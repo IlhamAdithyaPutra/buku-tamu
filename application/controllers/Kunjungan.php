@@ -34,6 +34,12 @@ class Kunjungan extends CI_Controller{
         $this->load->view('layouts/main',$data);
     }
 
+    function search(){
+        $keyword = $this->input->post('keyword');
+        $data['kunjungan']=$this->kunjungan_model->get_kunjungan_keyword($keyword);
+        $this->load->view('search',$data);
+    }
+
 
     /*
      * Editing a kunjungan
